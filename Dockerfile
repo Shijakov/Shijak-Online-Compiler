@@ -1,6 +1,8 @@
 # Use official PHP image with required extensions
 FROM php:8.1-fpm
 
+ENV APP_ENV=production
+
 # Set working directory
 WORKDIR /var/www
 

@@ -1,6 +1,8 @@
 # Use Python image
 FROM python:3.11
 
+ENV APP_ENV=production
+
 # Set working directory
 WORKDIR /app
 

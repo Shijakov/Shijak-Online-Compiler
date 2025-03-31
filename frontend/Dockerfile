@@ -1,6 +1,8 @@
 # Use Node.js image
 FROM node:18
 
+ENV NODE_ENV=production
+
 # Set working directory
 WORKDIR /app
 

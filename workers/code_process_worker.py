@@ -54,7 +54,17 @@ def execute_code(code, input_data, execution_id, redis_client):
 
 
 def main():
-    redis_client = redis.StrictRedis(host='localhost', port=6379, decode_responses=True)
+    variable_value = os.getenv('APP_ENV')
+    print(variable_value)
+    if variable_value is None:
+        variable_value = 'local'
+
+    if variable_value == 'local':
+        redis_host = '127.0.0.1'
+    else:
+        redis_host = 'redis'
+
+    redis_client = redis.StrictRedis(host=redis_host, port=6379, decode_responses=True)
 
     pubsub = redis_client.pubsub()
 

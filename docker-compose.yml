@@ -12,6 +12,8 @@ services:
         environment:
             - APP_ENV=production
             - DB_CONNECTION=redis
+        ports:
+            - "8000:8000"
         networks:
             - app_network
 
