@@ -112,26 +112,10 @@ $skipFollowMemCombine:
 jr $ra
 #==================================main================================ 
 main: 
-addi $sp, $sp, -84
+addi $sp, $sp, -80
 add $a0, $sp, 76
-li $v0, 5
-syscall 
-sw $v0, 0($a0)
-li $s5, 8
-sw $ra, 68($sp)
-jal $findFreeSlot
-lw $ra, 68($sp)
-add $a0, $sp, 80
-sw $s3, 0($a0)
-add $a0, $sp, 80
-lw $a0, 0($a0)
-li $a1, 0
-mul $a1, $a1, 4
-mflo $a1
-add $a0, $a0, $a1
 move $t0, $a0
-add $a0, $sp, 76
-lw $a0, 0($a0)
+li $a0, 10
 move $a1, $t0
 mul $a0, $a0, 4
 mflo $s5
@@ -139,20 +123,196 @@ sw $ra, 68($sp)
 jal $findFreeSlot
 lw $ra, 68($sp)
 sw $s3, 0($a1)
+li $s5, 8
+sw $ra, 68($sp)
+jal $findFreeSlot
+lw $ra, 68($sp)
+add $a0, $sp, 76
+lw $a0, 0($a0)
+move $t0, $a0
 li $a0, 0
+move $a1, $t0
+mul $a0, $a0, 4
+mflo $a0
+add $a0, $a0, $a1
+sw $s3, 0($a0)
+li $a0, 24
 move $s0, $a0
-add $a0, $sp, 72
+add $a0, $sp, 76
+lw $a0, 0($a0)
+move $t0, $a0
+li $a0, 0
+move $a1, $t0
+mul $a0, $a0, 4
+mflo $a0
+add $a0, $a0, $a1
+lw $a0, 0($a0)
+li $a1, 1
+mul $a1, $a1, 4
+mflo $a1
+add $a0, $a0, $a1
 sw $s0, 0($a0)
+add $a0, $sp, 76
+lw $a0, 0($a0)
+move $t0, $a0
+li $a0, 0
+move $a1, $t0
+mul $a0, $a0, 4
+mflo $a0
+add $a0, $a0, $a1
+lw $a0, 0($a0)
+li $a1, 0
+mul $a1, $a1, 4
+mflo $a1
+add $a0, $a0, $a1
+move $t0, $a0
+li $a0, 5
+move $a1, $t0
+mul $a0, $a0, 4
+mflo $s5
+sw $ra, 68($sp)
+jal $findFreeSlot
+lw $ra, 68($sp)
+sw $s3, 0($a1)
+li $a0, 70
+move $s0, $a0
+add $a0, $sp, 76
+lw $a0, 0($a0)
+move $t0, $a0
+li $a0, 0
+move $a1, $t0
+mul $a0, $a0, 4
+mflo $a0
+add $a0, $a0, $a1
+lw $a0, 0($a0)
+li $a1, 0
+mul $a1, $a1, 4
+mflo $a1
+add $a0, $a0, $a1
+lw $a0, 0($a0)
+move $t0, $a0
+li $a0, 0
+move $a1, $t0
+mul $a0, $a0, 4
+mflo $a0
+add $a0, $a0, $a1
+sw $s0, 0($a0)
+li $a0, 73
+move $s0, $a0
+add $a0, $sp, 76
+lw $a0, 0($a0)
+move $t0, $a0
+li $a0, 0
+move $a1, $t0
+mul $a0, $a0, 4
+mflo $a0
+add $a0, $a0, $a1
+lw $a0, 0($a0)
+li $a1, 0
+mul $a1, $a1, 4
+mflo $a1
+add $a0, $a0, $a1
+lw $a0, 0($a0)
+move $t0, $a0
+li $a0, 1
+move $a1, $t0
+mul $a0, $a0, 4
+mflo $a0
+add $a0, $a0, $a1
+sw $s0, 0($a0)
+li $a0, 76
+move $s0, $a0
+add $a0, $sp, 76
+lw $a0, 0($a0)
+move $t0, $a0
+li $a0, 0
+move $a1, $t0
+mul $a0, $a0, 4
+mflo $a0
+add $a0, $a0, $a1
+lw $a0, 0($a0)
+li $a1, 0
+mul $a1, $a1, 4
+mflo $a1
+add $a0, $a0, $a1
+lw $a0, 0($a0)
+move $t0, $a0
+li $a0, 2
+move $a1, $t0
+mul $a0, $a0, 4
+mflo $a0
+add $a0, $a0, $a1
+sw $s0, 0($a0)
+li $a0, 73
+move $s0, $a0
+add $a0, $sp, 76
+lw $a0, 0($a0)
+move $t0, $a0
+li $a0, 0
+move $a1, $t0
+mul $a0, $a0, 4
+mflo $a0
+add $a0, $a0, $a1
+lw $a0, 0($a0)
+li $a1, 0
+mul $a1, $a1, 4
+mflo $a1
+add $a0, $a0, $a1
+lw $a0, 0($a0)
+move $t0, $a0
+li $a0, 3
+move $a1, $t0
+mul $a0, $a0, 4
+mflo $a0
+add $a0, $a0, $a1
+sw $s0, 0($a0)
+li $a0, 80
+move $s0, $a0
+add $a0, $sp, 76
+lw $a0, 0($a0)
+move $t0, $a0
+li $a0, 0
+move $a1, $t0
+mul $a0, $a0, 4
+mflo $a0
+add $a0, $a0, $a1
+lw $a0, 0($a0)
+li $a1, 0
+mul $a1, $a1, 4
+mflo $a1
+add $a0, $a0, $a1
+lw $a0, 0($a0)
+move $t0, $a0
+li $a0, 4
+move $a1, $t0
+mul $a0, $a0, 4
+mflo $a0
+add $a0, $a0, $a1
+sw $s0, 0($a0)
+li $a0, 78
+move $a0, $a0
+li $v0, 11
+syscall 
+li $a0, 32
+move $a0, $a0
+li $v0, 11
+syscall 
 $while0: 
 add $a0, $sp, 72
 lw $a0, 0($a0)
 move $t0, $a0
-add $a0, $sp, 76
-lw $a0, 0($a0)
+li $a0, 5
 move $a1, $t0
 slt $a0, $a1, $a0
 bne $a0, 1, $endwhile0
-add $a0, $sp, 80
+add $a0, $sp, 76
+lw $a0, 0($a0)
+move $t0, $a0
+li $a0, 0
+move $a1, $t0
+mul $a0, $a0, 4
+mflo $a0
+add $a0, $a0, $a1
 lw $a0, 0($a0)
 li $a1, 0
 mul $a1, $a1, 4
@@ -166,13 +326,14 @@ move $a1, $t0
 mul $a0, $a0, 4
 mflo $a0
 add $a0, $a0, $a1
-li $v0, 12
+lw $a0, 0($a0)
+move $a0, $a0
+li $v0, 11
 syscall 
-sw $v0, 0($a0)
-li $a0, 1
-move $t0, $a0
 add $a0, $sp, 72
 lw $a0, 0($a0)
+move $t0, $a0
+li $a0, 1
 move $a1, $t0
 add $a0, $a0, $a1
 move $s0, $a0
@@ -180,62 +341,26 @@ add $a0, $sp, 72
 sw $s0, 0($a0)
 j $while0
 $endwhile0: 
-add $a0, $sp, 80
-lw $a0, 0($a0)
-li $a1, 1
-mul $a1, $a1, 4
-mflo $a1
-add $a0, $a0, $a1
-li $v0, 5
-syscall 
-sw $v0, 0($a0)
-li $a0, 0
-move $s0, $a0
-add $a0, $sp, 72
-sw $s0, 0($a0)
-$while1: 
-add $a0, $sp, 72
-lw $a0, 0($a0)
-move $t0, $a0
-add $a0, $sp, 76
-lw $a0, 0($a0)
-move $a1, $t0
-slt $a0, $a1, $a0
-bne $a0, 1, $endwhile1
-add $a0, $sp, 80
-lw $a0, 0($a0)
-li $a1, 0
-mul $a1, $a1, 4
-mflo $a1
-add $a0, $a0, $a1
-lw $a0, 0($a0)
-move $t0, $a0
-add $a0, $sp, 72
-lw $a0, 0($a0)
-move $a1, $t0
-mul $a0, $a0, 4
-mflo $a0
-add $a0, $a0, $a1
-lw $a0, 0($a0)
-move $a0, $a0
-li $v0, 11
-syscall 
-add $a0, $sp, 72
-lw $a0, 0($a0)
-move $t0, $a0
-li $a0, 1
-move $a1, $t0
-add $a0, $a0, $a1
-move $s0, $a0
-add $a0, $sp, 72
-sw $s0, 0($a0)
-j $while1
-$endwhile1: 
 li $a0, 32
 move $a0, $a0
 li $v0, 11
 syscall 
-add $a0, $sp, 80
+li $a0, 65
+move $a0, $a0
+li $v0, 11
+syscall 
+li $a0, 32
+move $a0, $a0
+li $v0, 11
+syscall 
+add $a0, $sp, 76
+lw $a0, 0($a0)
+move $t0, $a0
+li $a0, 0
+move $a1, $t0
+mul $a0, $a0, 4
+mflo $a0
+add $a0, $a0, $a1
 lw $a0, 0($a0)
 li $a1, 1
 mul $a1, $a1, 4
@@ -245,7 +370,7 @@ lw $a0, 0($a0)
 move $a0, $a0
 li $v0, 1
 syscall 
-addi $sp, $sp, 84
+addi $sp, $sp, 80
 j $END
 $END:
 li $v0, 10

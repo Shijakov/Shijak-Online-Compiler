@@ -1,8 +1,8 @@
 import sys, os, json, docker, redis, subprocess
 
 def execute_code(code, input_data, execution_id, redis_client):
-    shijak_compiler_jar = "../compiler/shijak.jar"
-    mars_compiler_jar = "../compiler/mars.jar"
+    shijak_compiler_jar = "./compiler/shijak.jar"
+    mars_compiler_jar = "./compiler/mars.jar"
 
     input_file = "input.shj"
     input_mars_file = "output.mips"
@@ -63,6 +63,8 @@ def main():
         redis_host = '127.0.0.1'
     else:
         redis_host = 'redis'
+
+    print(f"Redis host is {redis_host}")
 
     redis_client = redis.StrictRedis(host=redis_host, port=6379, decode_responses=True)
 

@@ -1,5 +1,40 @@
+define {
+    24 >> MY_AGE;
+    5 >> NAME_LEN;
+}
+
+bag Person {
+    name: char[],
+    age: int
+}
+
 fun main(): void {
-  let i: int;
-  'f' >> eq i;
-  output i;
+    let dang: bag Person[];
+    let i: int;
+    alloc bag Person[10] >> dang;
+    fill bag Person >> dang[0];
+
+    MY_AGE >> eq dang[0].age;
+
+    alloc char[NAME_LEN] >> dang[0].name;
+    
+    'F' >> eq dang[0].name[0];
+    'I' >> eq dang[0].name[1];
+    'L' >> eq dang[0].name[2];
+    'I' >> eq dang[0].name[3];
+    'P' >> eq dang[0].name[4];
+
+    output 'N';
+    output ' ';
+
+    while (i < NAME_LEN) {
+        output dang[0].name[i];
+        i + 1 >> eq i;
+    }
+
+    output ' ';
+    output 'A';
+    output ' ';
+
+    output dang[0].age;
 }
