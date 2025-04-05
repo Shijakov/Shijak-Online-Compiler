@@ -22,7 +22,7 @@ services:
         build:
             context: ./frontend
             args:
-                REACT_APP_API_URL: http://localhost:8000
+                REACT_APP_API_URL: http://0.0.0.0:8000
         container_name: react_app
         ports:
             - "3000:80" # nginx exposes port 80
