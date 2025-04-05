@@ -1,8 +1,6 @@
 # Use Python image
 FROM python:3.11
 
-ENV APP_ENV=production
-
 RUN apt-get update && apt-get install -y wget \
     && wget -O /tmp/openjdk-24.tar.gz https://download.oracle.com/java/24/latest/jdk-24_linux-x64_bin.tar.gz  \
     && mkdir -p /usr/lib/jvm \

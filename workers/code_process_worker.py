@@ -54,21 +54,26 @@ def execute_code(code, input_data, execution_id, redis_client):
 
 
 def main():
-    variable_value = os.getenv('APP_ENV')
-    print(variable_value)
-    if variable_value is None:
-        variable_value = 'local'
+    redis_url = os.getenv('REDIS_URL')
+    redis_port = os.getenv('REDIS_PORT')
+    redis_password = os.getenv('REDIS_PASSWORD')
 
-    if variable_value == 'local':
-        redis_host = '127.0.0.1'
-    else:
-        redis_host = 'redis'
+    if redis_url is None:
+        redis_url = 'localhost'
 
-    print(f"Redis host is {redis_host}")
+    if redis_port is None:
+        redis_port = 6379
 
-    redis_client = redis.StrictRedis(host=redis_host, port=6379, decode_responses=True)
+#     if redis_password is None:
+#         redis_password = ''
+
+    redis_client = redis.StrictRedis(host=redis_url, port=redis_port, password=redis_password, decode_responses=True)
 
     pubsub = redis_client.pubsub()
+
+    print(redis_url)
+    print(redis_port)
+    print(redis_password)
 
     channel_name = "code-channel"
     pubsub.subscribe(channel_name)

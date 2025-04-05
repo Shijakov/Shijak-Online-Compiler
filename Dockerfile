@@ -23,11 +23,10 @@ COPY . .
 # Install dependencies
 RUN composer install --no-dev --optimize-autoloader
 
-# Expose port
-EXPOSE 9000
-
 CMD ["php", "artisan", "cache:clear"]
 CMD ["php", "artisan", "config:clear"]
+
+EXPOSE 8000
 
 # Start PHP-FPM
 CMD ["php", "artisan", "serve", "--host=0.0.0.0", "--port=8000"]
