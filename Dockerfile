@@ -23,8 +23,8 @@ COPY . .
 # Install dependencies
 RUN composer install --no-dev --optimize-autoloader
 
-CMD ["php", "artisan", "cache:clear"]
-CMD ["php", "artisan", "config:clear"]
+RUN php artisan cache:clear
+RUN php artisan config:clear
 
 EXPOSE 8000
 

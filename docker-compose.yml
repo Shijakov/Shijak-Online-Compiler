@@ -6,8 +6,6 @@ services:
         container_name: laravel_app
         restart: always
         working_dir: /var/www
-        volumes:
-            - .:/var/www
         ports:
             - "8000:8000"
         depends_on:
@@ -46,8 +44,3 @@ services:
         restart: always
         ports:
             - "6379:6379"
-        volumes:
-            - redis_data:/data
-
-volumes:
-    redis_data:
