@@ -54,6 +54,7 @@ def execute_code(code, input_data, execution_id, redis_client):
 
 
 def main():
+    print("In main")
     redis_url = os.getenv('REDIS_URL')
     redis_port = os.getenv('REDIS_PORT')
     redis_password = os.getenv('REDIS_PASSWORD')
@@ -64,6 +65,11 @@ def main():
     if redis_port is None:
         redis_port = 6379
 
+    print('Before db connection')
+    print(redis_url)
+    print(redis_port)
+    print(redis_password)
+
 #     if redis_password is None:
 #         redis_password = ''
 
@@ -71,6 +77,7 @@ def main():
 
     pubsub = redis_client.pubsub()
 
+    print('After db connection')
     print(redis_url)
     print(redis_port)
     print(redis_password)
@@ -90,9 +97,9 @@ def main():
             except json.JSONDecodeError:
                 print(f"Received non-JSON message: {message['data']}")
 
-
+print("FIRST")
 if __name__ == '__main__':
-    print('HEREEEEE')
+    print('IN first function')
     try:
         main()
     except KeyboardInterrupt:

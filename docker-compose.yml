@@ -37,6 +37,7 @@ services:
         environment:
             - REDIS_URL=redis
             - REDIS_PORT=6379
+            - PYTHONUNBUFFERED=1
 
     redis:
         image: redis:latest
