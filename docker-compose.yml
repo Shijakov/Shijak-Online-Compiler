@@ -16,6 +16,7 @@ services:
             - APP_KEY=
             - REDIS_HOST=redis
             - REDIS_PORT=6379
+            - "REDIS_CHANNEL=code-channel"
 
     frontend:
         build:
