@@ -23,17 +23,20 @@ def execute_code(code, input_data, execution_id, redis_client):
         redis_client.set(execution_id, result)
         return
 
-    process = subprocess.Popen(
-        ["java", "-jar", mars_compiler_jar, "nc",  input_mars_file],
-        stdin=subprocess.PIPE,
-        stdout=subprocess.PIPE,
-        stderr=subprocess.PIPE,
-        text=True  # Ensure input/output are treated as text (not bytes)
-    )
+    result_STATUS = ""
+    result_message = ""
+    try:
+        process = subprocess.Popen(
+            ["java", "-jar", mars_compiler_jar, "nc",  input_mars_file],
+            stdin=subprocess.PIPE,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            text=True  # Ensure input/output are treated as text (not bytes)
+        )
 
-    output, error = process.communicate(input_data)
+        output, error = process.communicate(input_data, timeout=10)
 
-    if error != "":
+        if error != "":
             result = json.dumps({
                 "status": "failed",
                 "output": f"Compiled with errors: {error}",
@@ -42,12 +45,28 @@ def execute_code(code, input_data, execution_id, redis_client):
             redis_client.set(execution_id, result)
             return
 
-    print("Compilation successful")
+        print("Compilation successful")
 
-    print(output)
+        print(output)
+        result_status = 'success'
+        result_message = output
+
+    except subprocess.TimeoutExpired:
+        # If the process takes longer than 10 seconds, it raises a TimeoutExpired exception
+        print("Error: The process exceeded the timeout limit of 10 seconds.")
+        process.kill()  # Kill the process if it exceeds the timeout
+        result_status = "failed"
+        result_message = "Error: The process exceeded the timeout limit of 10 seconds.",
+
+    except Exception as e:
+        # Handle any other exceptions that occur
+        print(f"Error occurred: {e}")
+        result_status = "failed"
+        result_message = f"Error occurred: {e}",
+
     result = json.dumps({
-        "status": "success",
-        "output": output,
+        "status": result_status,
+        "output": result_message,
     })
     print(result)
     redis_client.set(execution_id, result)

@@ -18,6 +18,7 @@ export const ExecutionResult = ({ executionId }) => {
         if (!executionId) return;
 
         const interval = setInterval(async () => {
+            console.log("Making request for execution status");
             const response = await call('/code/' + executionId);
 
             const rez = JSON.parse(response.data);
@@ -26,12 +27,17 @@ export const ExecutionResult = ({ executionId }) => {
                 setOutput(rez.output);
             }
 
-            if (response.data['status'] !== 'waiting') {
+            if (rez.status !== 'waiting') {
+                console.log('Clearing interval because status is not waiting');
+                console.log(rez);
                 clearInterval(interval);
             }
         }, 1000);
 
-        return () => clearInterval(interval);
+        return () => {
+            console.log('Clearing interval because exiting');
+            clearInterval(interval);
+        } ;
     }, [executionId, call]);
 
     if (!loading) {
