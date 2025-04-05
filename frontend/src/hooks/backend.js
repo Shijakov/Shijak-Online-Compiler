@@ -27,18 +27,12 @@ export const useBackend = () => {
 
             const headers = { 'Content-Type': 'application/json' };
 
-            console.log("Before call")
-            console.log(axios.defaults.baseURL);
-
             const response = await axios({
                 url: endpoint,
                 method,
                 data: body,
                 headers,
             });
-
-            console.log("After call")
-            console.log(response);
 
             if (Math.floor(response.status / 100) !== 2) {
                 return fail(response.data);

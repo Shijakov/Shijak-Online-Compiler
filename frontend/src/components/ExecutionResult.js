@@ -19,7 +19,7 @@ export const ExecutionResult = ({ executionId }) => {
 
         const interval = setInterval(async () => {
             const response = await call('/code/' + executionId);
-            console.log('from  Execution result ', response);
+
             const rez = JSON.parse(response.data);
             if (rez.status !== 'waiting') {
                 setLoading(false);
