@@ -1,66 +1,29 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+An [online-compiler](http://64.226.66.193:3000/) for my programming language [Shijak](https://github.com/Shijakov/Shijak-Compiler)
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+# Architecture
 
-## About Laravel
+![Architecture](./readme-images/Architecture.png)
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+The web applications has the following components:
+- React front-end application
+- Laravel back-end application
+- Redis key-value db and Redis message broker
+- Python script that executes the code
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+# Execution Flow
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+![Execution-Flow](./readme-images/Execution_Flow.png)
 
-## Learning Laravel
-
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
-
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
-
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
-
-## Laravel Sponsors
-
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
-
-### Premium Partners
-
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
-
-## Contributing
-
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
-
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+1. The user clicks the __Compile__ button.
+2. The client application sends a __POST__ request to the server.
+3. The server generates a unique __ID__ for this execution instance of the Shijak program.
+4. The server stores an entry in the database with key __ID__ and value `{status: "waiting"}`.
+5. The server publishes a message to the message broker: `{id: ID, code: CODE, input: INPUT}`.
+6. The server responds to the client’s __POST__ request with the generated __ID__.
+7. From this point, the following two steps are repeated every second until the execution of the Shijak program is complete (i.e., until the client receives `{status: "done", ...}`):
+ - Using the received __ID__, the client sends a __GET__ request to check the execution status of the Shijak program.
+ - The server retrieves the current value from the database for the given __ID__ and returns it to the client.
+8. A Python script listening to the message broker receives the message, extracts the __CODE__ and __INPUT__, and starts executing the code.
+9. The Python script first invokes the Shijak compiler with __CODE__, then executes the output with the MARS simulator using the provided __INPUT__.
+10. The result of the execution is stored in the database. Specifically, the server updates the entry for __ID__ with `{status: "done", message: MESSAGE}`. If the compiler throws an error, the error is recorded instead.
+11. Finally, the two steps under 7. are executed once more. When the client receives `{status: "done", message: MESSAGE}`, it displays __MESSAGE__ on the screen, completing the execution workflow.
